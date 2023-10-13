@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 
 
@@ -12,7 +11,7 @@ def data_visualize(dataset, t):
         t: the number of timestamps to visualize
     """
 
-    data = dataset.data.squeeze(0)
+    data = np.squeeze(dataset.data, axis=0)
     data_cols = dataset.data_cols
     timestamp = dataset.data_stamp
 
