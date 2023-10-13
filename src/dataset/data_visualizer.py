@@ -7,4 +7,6 @@ def data_visualize(dataset, t):
         t: the number of timestamps to visualize
     """
 
-    raise NotImplementedError
+    data = dataset.data
+    data_cols = dataset.data_cols
+    timestamp = dataset.data_stamp

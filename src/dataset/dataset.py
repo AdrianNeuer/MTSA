@@ -85,7 +85,8 @@ class ETTDataset(DatasetBase):
         if self.num_val == 0:
             self.val_data = None
         else:
-            self.val_data = self.data[:, self.num_train: self.num_train + self.num_val, :]
+            self.val_data = self.data[:,
+                                      self.num_train: self.num_train + self.num_val, :]
         self.test_data = self.data[:, self.num_train + self.num_val:, :]
 
 
@@ -113,10 +114,26 @@ class CustomDataset(DatasetBase):
             self.data_cols: data columns(features/targets)
             self.data: np.ndarray, shape=(n_samples, timesteps, channels), where the last channel is the target
         '''
-        raise NotImplementedError
+        data = pd.read_csv(self.data_path)
+        cols = list(data.columns)
+        cols.remove(self.target)
+        cols.remove('date')
+        data = data[['date'] + cols + [self.target]]
+        self.data_stamp = pd.to_datetime(data.date)
+        self.data_cols = cols + [self.target]
+        self.data = np.expand_dims(data[self.data_cols].values, axis=0)
 
     def split_data(self):
-        raise NotImplementedError
+        self.split = True
+        self.num_train = int(self.ratio_train * self.data.shape[1])
+        self.num_val = int(self.ratio_val * self.data.shape[1])
+        self.train_data = self.data[:, :self.num_train, :]
+        if self.num_val == 0:
+            self.val_data = None
+        else:
+            self.val_data = self.data[:,
+                                      self.num_train: self.num_train + self.num_val, :]
+        self.test_data = self.data[:, self.num_train + self.num_val:, :]
 
 
 def get_dataset(args):
