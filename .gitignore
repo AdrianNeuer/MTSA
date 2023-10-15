@@ -1,4 +1,5 @@
 dataset
+imgs
 .idea
 *.pyc
 !src/dataset

@@ -15,10 +15,10 @@ def data_visualize(dataset, t):
     data_cols = dataset.data_cols
     timestamp = dataset.data_stamp
 
-    index = np.random.choice(np.arange(data.shape[1] - t))
-    visual_data = data[:, index: index + t, :]
+    index = np.random.choice(np.arange(data.shape[0] - t))
+    visual_data = data[index: index + t, :]
     visual_stamp = timestamp[index: index + t]
-    for i in range(data.shape[2]):
+    for i in range(data.shape[1]):
         channel = data_cols[i]
         plt.plot(visual_stamp, visual_data[:, i], label=channel)
         plt.savefig('imgs/'+channel+'.png')
