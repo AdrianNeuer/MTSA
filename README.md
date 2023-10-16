@@ -110,16 +110,16 @@ You are provided with a base class named `MLForecastModel`, which defines the st
 
 **In your report, write down the mathematical formula for each algorithm, test the algorithm with different transformations on the dataset you plot in Part 1 and fill the table below.**
 
-| Dataset  | Model | Transform | MSE  | MAE  | MAPE | SMAPE | MASE |
-| -------- | ----- | --------- | ----- | ----- | ----- | ----- | ----- |
-| dataset | AR    | None      |      |      |      |       |      |
-|          |       | Normalize |      |      |      |       |      |
-|          |       | Box-Cox   |      |      |      |       |      |
-|          |       | ...       |      |      |      |       |      |
-|          | EMA   | None      |      |      |      |       |      |
-|          |       | Normalize |      |      |      |       |      |
-|          |       | Box-Cox   |      |      |      |       |      |
-|          |       | ...       |      |      |      |       |      |
+| Dataset | Model | Transform | MSE | MAE | MAPE | SMAPE | MASE |
+| ------- | ----- | --------- | --- | --- | ---- | ----- | ---- |
+| dataset | LR    | None      |     |     |      |       |      |
+|         |       | Normalize |     |     |      |       |      |
+|         |       | Box-Cox   |     |     |      |       |      |
+|         |       | ...       |     |     |      |       |      |
+|         | ES    | None      |     |     |      |       |      |
+|         |       | Normalize |     |     |      |       |      |
+|         |       | Box-Cox   |     |     |      |       |      |
+|         |       | ...       |     |     |      |       |      |
 
 
 

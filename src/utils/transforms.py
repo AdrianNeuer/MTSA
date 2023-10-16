@@ -26,10 +26,10 @@ class IdentityTransform(Transform):
         pass
 
     def transform(self, data):
-        pass
+        return data
 
     def inverse_transform(self, data):
-        pass
+        return data
 # TODO: add other transforms
 
 
@@ -98,7 +98,7 @@ class BoxCosTransform(Transform):
         if self.lamda1 == 0:
             normalize_data = np.log(data)
         else:
-            normalize_data = np.power(data, self.lamda1) / self.lamda1
+            normalize_data = (np.power(data, self.lamda1) - 1) / self.lamda1
 
         return normalize_data
 
@@ -106,7 +106,7 @@ class BoxCosTransform(Transform):
         if self.lamda1 == 0:
             inverse_data = np.exp(data)
         else:
-            inverse_data = np.power(data * self.lamda1, 1/self.lamda1)
+            inverse_data = np.power(data * self.lamda1 + 1, 1/self.lamda1)
         if self.lamda2 is not None:
             inverse_data -= self.lamda2
         return inverse_data

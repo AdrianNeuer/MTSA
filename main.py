@@ -1,6 +1,7 @@
 from src.models.TsfKNN import TsfKNN
-from src.models.baselines import ZeroForecast, MeanForecast
-from src.utils.transforms import IdentityTransform
+from src.models.baselines import ZeroForecast, MeanForecast, LinearRegression, ExpotenialSmoothing
+from src.utils.transforms import IdentityTransform, NormalizationTransform, \
+    StandardizationTransform, MeanNormalizationTransform, BoxCosTransform
 from trainer import MLTrainer
 from src.dataset.dataset import get_dataset
 from src.dataset.data_visualizer import data_visualize
@@ -14,12 +15,12 @@ def get_args():
 
     # dataset config
     parser.add_argument('--data_path', type=str,
-                        default='./dataset/ETT/ETTh1.csv')
+                        default='./dataset/illness/national_illness.csv')
     parser.add_argument('--train_data_path', type=str,
                         default='./dataset/m4/Daily-train.csv')
     parser.add_argument('--test_data_path', type=str,
                         default='./dataset/m4/Daily-test.csv')
-    parser.add_argument('--dataset', type=str, default='ETT',
+    parser.add_argument('--dataset', type=str, default='Custom',
                         help='dataset type, options: [M4, ETT, Custom]')
     parser.add_argument('--target', type=str, default='OT',
                         help='target feature')
@@ -33,6 +34,11 @@ def get_args():
     # transform parameter
     parser.add_argument('--box_lambda', type=float,
                         default=0.5, help='box-cox lambda')
+    # model parameter
+    parser.add_argument('--ES_alpha', type=float,
+                        default=0.5, help='ES alpha')
+    parser.add_argument('--ES_beta', type=float,
+                        default=0.5, help='ES beta')
 
     # forcast task config
     parser.add_argument('--seq_len', type=int, default=96,
@@ -60,8 +66,10 @@ def get_args():
 def get_model(args):
     model_dict = {
         'ZeroForecast': ZeroForecast,
-        'MeanForecast': MeanForecast,
+        'Mean': MeanForecast,
         'TsfKNN': TsfKNN,
+        'LR': LinearRegression,
+        'ES': ExpotenialSmoothing,
     }
     return model_dict[args.model](args)
 
@@ -69,6 +77,10 @@ def get_model(args):
 def get_transform(args):
     transform_dict = {
         'IdentityTransform': IdentityTransform,
+        'Normal': NormalizationTransform,
+        'Standard': StandardizationTransform,
+        'MeanNormal': MeanNormalizationTransform,
+        'Box': BoxCosTransform
     }
     return transform_dict[args.transform](args)
 
