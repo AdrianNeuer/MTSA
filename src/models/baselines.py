@@ -26,3 +26,19 @@ class MeanForecast(MLForecastModel):
         return np.repeat(mean, pred_len, axis=1)
 
 # TODO: add other models based on MLForecastModel
+
+
+class LinearRegression(MLForecastModel):
+    def __init__(self):
+        super().__init__()
+
+    def _fit(self, X):
+        """
+        X : (n_sample, seq_len + pred_len)
+        last channel is target
+        """
+        fit_x = X[:,:,:-1]
+        fit_y = X[:,:,-1]
+
+    def _forecast(self, X, pred_len):
+        pass
