@@ -22,3 +22,4 @@ def data_visualize(dataset, t):
         channel = data_cols[i]
         plt.plot(visual_stamp, visual_data[:, i], label=channel)
         plt.savefig('imgs/'+channel+'.png')
+        plt.close()
