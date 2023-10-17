@@ -42,8 +42,8 @@ class NormalizationTransform(Transform):
         """
         data --> train_data : (n_samples, timestamp, channel)
         """
-        self.Max = np.max(data, axis=1)
-        self.Min = np.min(data, axis=1)
+        self.Max = np.expand_dims(np.max(data, axis=1), 1)
+        self.Min = np.expand_dims(np.min(data, axis=1), 1)
         normalize_data = np.where(
             self.Max != self.Min, (data - self.Min)/(self.Max - self.Min), 0.0)
         return normalize_data
@@ -58,8 +58,8 @@ class StandardizationTransform(Transform):
         self.sigma = None
 
     def transform(self, data):
-        self.mu = np.mean(data, axis=1)
-        self.sigma = np.std(data, axis=1)
+        self.mu = np.expand_dims(np.mean(data, axis=1), 1)
+        self.sigma = np.expand_dims(np.std(data, axis=1), 1)
         normalize_data = np.where(
             self.sigma != 0, (data-self.mu)/self.sigma, 0.0)
         return normalize_data
@@ -75,9 +75,9 @@ class MeanNormalizationTransform(Transform):
         self.mu = None
 
     def transform(self, data):
-        self.Max = np.max(data, axis=1)
-        self.Min = np.min(data, axis=1)
-        self.mu = np.mean(data, axis=1)
+        self.Max = np.expand_dims(np.max(data, axis=1), 1)
+        self.Min = np.expand_dims(np.min(data, axis=1), 1)
+        self.mu = np.expand_dims(np.mean(data, axis=1), 1)
         normalize_data = np.where(
             self.Max != self.Min, (data - self.mu)/(self.Max - self.Min), 0.0)
         return normalize_data
@@ -89,16 +89,15 @@ class MeanNormalizationTransform(Transform):
 class BoxCosTransform(Transform):
     def __init__(self, args):
         self.lamda1 = args.box_lambda
-        self.lamda2 = None
 
     def transform(self, data):
-        if np.any(data <= 0):
-            self.lamda2 = abs(np.min(data, axis=1)) + 1
-            data += self.lamda2
+        sign = np.sign(data)
+
         if self.lamda1 == 0:
-            normalize_data = np.log(data)
+            normalize_data = np.log(np.abs(data))
         else:
-            normalize_data = (np.power(data, self.lamda1) - 1) / self.lamda1
+            normalize_data = (
+                sign * np.power(np.abs(data), self.lamda1) - 1) / self.lamda1
 
         return normalize_data
 
@@ -106,7 +105,8 @@ class BoxCosTransform(Transform):
         if self.lamda1 == 0:
             inverse_data = np.exp(data)
         else:
-            inverse_data = np.power(data * self.lamda1 + 1, 1/self.lamda1)
-        if self.lamda2 is not None:
-            inverse_data -= self.lamda2
+            inverse_data = data * self.lamda1 + 1
+            sign = np.sign(inverse_data)
+            inverse_data = sign * np.power(np.abs(inverse_data), 1/self.lamda1)
+
         return inverse_data

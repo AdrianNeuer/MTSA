@@ -33,12 +33,12 @@ def get_args():
 
     # transform parameter
     parser.add_argument('--box_lambda', type=float,
-                        default=0.5, help='box-cox lambda')
+                        default=0.7, help='box-cox lambda')
     # model parameter
     parser.add_argument('--ES_alpha', type=float,
-                        default=0.5, help='ES alpha')
+                        default=0.8, help='ES alpha')
     parser.add_argument('--ES_beta', type=float,
-                        default=0.5, help='ES beta')
+                        default=0.1, help='ES beta')
 
     # forcast task config
     parser.add_argument('--seq_len', type=int, default=96,

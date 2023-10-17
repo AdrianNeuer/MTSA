@@ -21,7 +21,7 @@ class DatasetBase:
 class M4Dataset(DatasetBase):
     def __init__(self, args):
         self.train_data_path = args.train_data_path
-        self.test_data_path = args.train_data_path
+        self.test_data_path = args.test_data_path
         self.type = 'm4'
         super().__init__(args)
 
