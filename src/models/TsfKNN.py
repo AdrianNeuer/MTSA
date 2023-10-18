@@ -2,14 +2,22 @@ import numpy as np
 from numpy.lib.stride_tricks import sliding_window_view
 
 from src.models.base import MLForecastModel
-from src.utils.distance import euclidean
+from src.utils.distance import euclidean, manhattan, chebyshev
+
+
+def get_distance(args):
+    model_dict = {
+        'euclidean': euclidean,
+        'manhattan': manhattan,
+        'chebyshev': chebyshev
+    }
+    return model_dict[args.distance]
 
 
 class TsfKNN(MLForecastModel):
     def __init__(self, args):
         self.k = args.n_neighbors
-        if args.distance == 'euclidean':
-            self.distance = euclidean
+        self.distance = get_distance(args)
         self.msas = args.msas
         super().__init__()
 
@@ -26,7 +34,8 @@ class TsfKNN(MLForecastModel):
         elif self.msas == 'recursive':
             distances = self.distance(x, X_s[:, :seq_len])
             indices_of_smallest_k = np.argsort(distances)[:self.k]
-            neighbor_fore = X_s[indices_of_smallest_k, seq_len].reshape((-1, 1))
+            neighbor_fore = X_s[indices_of_smallest_k,
+                                seq_len].reshape((-1, 1))
             x_fore = np.mean(neighbor_fore, axis=0, keepdims=True)
             x_new = np.concatenate((x[:, 1:], x_fore), axis=1)
             if pred_len == 1:
