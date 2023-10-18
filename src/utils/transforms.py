@@ -94,7 +94,7 @@ class BoxCosTransform(Transform):
         sign = np.sign(data)
 
         if self.lamda1 == 0:
-            normalize_data = np.log(np.abs(data))
+            normalize_data = sign * np.log(np.abs(data))
         else:
             normalize_data = (
                 sign * np.power(np.abs(data), self.lamda1) - 1) / self.lamda1
@@ -103,7 +103,8 @@ class BoxCosTransform(Transform):
 
     def inverse_transform(self, data):
         if self.lamda1 == 0:
-            inverse_data = np.exp(data)
+            sign = np.sign(data)
+            inverse_data = sign * np.exp(data)
         else:
             inverse_data = data * self.lamda1 + 1
             sign = np.sign(inverse_data)
