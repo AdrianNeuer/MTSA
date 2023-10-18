@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 
 
 def data_visualize(dataset, t):
@@ -10,6 +11,9 @@ def data_visualize(dataset, t):
         dataset: dataset to visualize
         t: the number of timestamps to visualize
     """
+
+    if not os.path.exists("imgs"):
+        os.mkdir("imgs")
 
     data = np.squeeze(dataset.data, axis=0)
     data_cols = dataset.data_cols

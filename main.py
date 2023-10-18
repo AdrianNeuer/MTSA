@@ -31,6 +31,9 @@ def get_args():
     parser.add_argument('--ratio_test', type=float,
                         default=0.3, help='input sequence length')
 
+    parser.add_argument('--data_visualize', type=bool,
+                        default=False, help='whether to visualize dataset')
+
     # transform parameter
     parser.add_argument('--box_lambda', type=float,
                         default=0.7, help='box-cox lambda')
@@ -94,7 +97,8 @@ if __name__ == '__main__':
     # load dataset
     dataset = get_dataset(args)
 
-    # data_visualize(dataset, 200)
+    if args.data_visualize is True:
+        data_visualize(dataset, 200)
     # create model
     model = get_model(args)
     # data transform
