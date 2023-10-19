@@ -31,6 +31,21 @@ python main.py --model ES --transform Box
 
 ​	即可得到所有的error结果
 
+## TsfKNN Distance
+
+- 对TsfKNN在两个数据集illness/natinal_illness.csv和ETT-small/ETTh1.csv上采用不同distance得到error，需要在主文件夹下运行如下命令：
+
+```bash
+python main.py --model TsfKNN
+python main.py --model TsfKNN --distance manhattan
+python main.py --model TsfKNN --distance chebyshev
+python main.py --data_path ./dataset/ETT-small/ETTh1.csv --dataset ETT --model TsfKNN
+python main.py --data_path ./dataset/ETT-small/ETTh1.csv --dataset ETT --model TsfKNN --distance mamhattan
+python main.py --data_path ./dataset/ETT-small/ETTh1.csv --dataset ETT --model TsfKNN --distance chebyshev
+```
+
 ## Dataset
 
-实验所用到的数据集为illness/national_illness/csv
+LR和ES实验所用到的数据集为illness/national_illness.csv
+
+TsfKNN实验用到两个数据集illness/national_illness.csv和ETT-small/ETTh1.csv
