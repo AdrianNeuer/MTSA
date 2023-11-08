@@ -21,7 +21,8 @@ class MLTrainer:
             pred_len = dataset.test_data.shape[-1]
         else:
             test_data = dataset.test_data
-            subseries = np.concatenate(([sliding_window_view(v, (seq_len + pred_len, v.shape[-1])) for v in test_data]))
+            subseries = np.concatenate(
+                ([sliding_window_view(v, (seq_len + pred_len, v.shape[-1])) for v in test_data]))
             test_X = subseries[:, 0, :seq_len, :]
             test_Y = subseries[:, 0, seq_len:, :]
         te_X = self.transform.transform(test_X)
