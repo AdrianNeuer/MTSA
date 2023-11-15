@@ -75,20 +75,27 @@ Explore other decomposition methods as you like.
 
   In your report, write down the details of your method and fill the table below.
 
- | Temporal Embedding | Distance  | MSE | MAE |
- | ------------------ | --------- | --- | --- |
- | lag-based (lag=96) | euclidean |     |     |
- |                    | ...       |     |     |
+ | Temporal Embedding  | Distance  | MSE   | MAE  |
+ | ------------------- | --------- | ----- | ---- |
+ | lag-based (lag=96)  | euclidean | 13.51 | 2.21 |
+ | lag-based (lag=96)  | manhattan | 13.51 | 2.17 |
+ | lag-based (lag=96)  | chebyshev | 14.30 | 2.36 |
+ | lag-based (lag=64)  | euclidean | 12.52 | 2.10 |
+ | lag-based (lag=64)  | manhattan | 12.03 | 2.09 |
+ | lag-based (lag=64)  | chebyshev | 13.38 | 2.25 |
+ | lag-based (lag=120) | euclidean | 13.75 | 2.22 |
+ | lag-based (lag=120) | manhattan | 14.06 | 2.23 |
+ | lag-based (lag=120) | chebyshev | 15.04 | 2.43 |
 
 **2. Decomposition Method Evaluation for TsfKNN and DLinear**
 
 Transform the data by Standardization and apply different decomposition methods.
 In your report, write down the details of your method and fill the table below.
     
-| Model  | Decomposition | MSE | MAE |
-| ------ | ------------- | --- | --- |
-| TsfKNN | MA            |     |     |
-|        | ...           |     |     |
+| Model   | Decomposition | MSE   | MAE  |
+| ------- | ------------- | ----- | ---- |
+| TsfKNN  | MA            | 15.95 | 2.15 |
+| DLinear | MA            | 11.81 | 1.96 |
 
 
 

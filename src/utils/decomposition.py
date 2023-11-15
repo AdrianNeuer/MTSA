@@ -1,4 +1,9 @@
-def moving_average(x, seasonal_period):
+import numpy as np
+import torch
+import torch.nn as nn
+
+
+def moving_average(x, seasonal_period=25):
     """
     Moving Average Algorithm
     Args:
@@ -8,7 +13,16 @@ def moving_average(x, seasonal_period):
         trend (numpy.ndarray): Trend component
         seasonal (numpy.ndarray): Seasonal component
     """
-    raise NotImplementedError
+    # kernel_size = 25
+    new_x = x.clone()
+    avg = nn.AvgPool1d(kernel_size=seasonal_period, stride=1, padding=0)
+    front = x[:, 0:1, :].repeat(1, (seasonal_period - 1) // 2, 1)
+    end = x[:, -1:, :].repeat(1, (seasonal_period - 1) // 2, 1)
+    x = torch.cat([front, x, end], dim=1)
+    x = avg(x.permute(0, 2, 1))
+    x = x.permute(0, 2, 1)
+
+    return new_x - x, x
 
 
 def differential_decomposition(x):
@@ -22,4 +36,3 @@ def differential_decomposition(x):
     """
 
     raise NotImplementedError
-
