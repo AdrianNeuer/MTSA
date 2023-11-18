@@ -77,15 +77,31 @@ Explore other decomposition methods as you like.
 
  | Temporal Embedding  | Distance  | MSE   | MAE  |
  | ------------------- | --------- | ----- | ---- |
- | lag-based (lag=96)  | euclidean | 13.51 | 2.21 |
- | lag-based (lag=96)  | manhattan | 13.51 | 2.17 |
- | lag-based (lag=96)  | chebyshev | 14.30 | 2.36 |
- | lag-based (lag=64)  | euclidean | 12.52 | 2.10 |
- | lag-based (lag=64)  | manhattan | 12.03 | 2.09 |
- | lag-based (lag=64)  | chebyshev | 13.38 | 2.25 |
- | lag-based (lag=120) | euclidean | 13.75 | 2.22 |
- | lag-based (lag=120) | manhattan | 14.06 | 2.23 |
- | lag-based (lag=120) | chebyshev | 15.04 | 2.43 |
+ | lag-based (lag=1)  | euclidean | 13.51 | 2.21 |
+ | lag-based (lag=1)  | manhattan | 13.51 | 2.17 |
+ | lag-based (lag=1)  | chebyshev | 14.30 | 2.36 |
+ | lag-based (lag=2)  | euclidean | 14.18 | 2.25 |
+ | lag-based (lag=2)  | manhattan | 13.91 | 2.20 |
+ | lag-based (lag=2)  | chebyshev | 14.72 | 2.39 |
+ | lag-based (lag=3) | euclidean | 14.08 | 2.24 |
+ | lag-based (lag=3) | manhattan | 13.78 | 2.19 |
+ | lag-based (lag=3) | chebyshev | 14.99 | 2.39 |
+ | lag-based (lag=8)  | euclidean | 16.64 | 2.37 |
+ | lag-based (lag=8)  | manhattan | 15.76 | 2.32 |
+ | lag-based (lag=8)  | chebyshev | 16.92 | 2.43 |
+ | Fourier  | euclidean | 42.56 | 3.62 |
+ | Fourier  | manhattan | 41.66 | 3.74 |
+ | Fourier  | chebyshev | 43.17 | 4.19 |
+ | Autoencoder(encoding_size=48)  | euclidean | 14.02 | 2.24 |
+ | Autoencoder(encoding_size=48)  | manhattan | 14.42 | 2.28 |
+ | Autoencoder(encoding_size=48)  | chebyshev | 16.09 | 2.64 |
+ | Autoencoder(encoding_size=24)  | euclidean | 13.88 | 2.23 |
+ | Autoencoder(encoding_size=24)  | manhattan | 14.26 | 2.24 |
+ | Autoencoder(encoding_size=24)  | chebyshev | 15.02 | 2.47 |
+ | Autoencoder(encoding_size=32)  | euclidean | 13.85 | 2.25 |
+ | Autoencoder(encoding_size=32)  | manhattan | 14.46 | 2.26 |
+ | Autoencoder(encoding_size=32)  | chebyshev | 14.98 | 2.54 |
+
 
 **2. Decomposition Method Evaluation for TsfKNN and DLinear**
 
@@ -95,7 +111,9 @@ In your report, write down the details of your method and fill the table below.
 | Model   | Decomposition | MSE   | MAE  |
 | ------- | ------------- | ----- | ---- |
 | TsfKNN  | MA            | 15.95 | 2.15 |
-| DLinear | MA            | 11.81 | 1.96 |
+| DLinear | MA            | 6.16  | 1.33 |
+| TsfKNN  | Diff          | 17.08 | 2.21 |
+| DLinear | Diff          | 6.17  | 1.34 |
 
 
 

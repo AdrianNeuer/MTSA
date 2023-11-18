@@ -52,6 +52,10 @@ def get_args():
     parser.add_argument('--transform', type=str, default='IdentityTransform')
     parser.add_argument('--decomposition', type=str, default='MA')
     parser.add_argument('--decompose', type=bool, default=False)
+    parser.add_argument('--lag', type=int, default=0)
+    parser.add_argument('--fourier', type=bool, default=False)
+    parser.add_argument('--auto', type=bool, default=False)
+    parser.add_argument('--encoding_size', type=int, default=48)
 
     args = parser.parse_args()
     return args

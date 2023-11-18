@@ -35,4 +35,7 @@ def differential_decomposition(x):
         seasonal (numpy.ndarray): Seasonal component
     """
 
-    raise NotImplementedError
+    trend = torch.diff(x, axis=1)
+    trend = nn.functional.pad(trend, (0, 0, 1, 0))
+
+    return x - trend, trend

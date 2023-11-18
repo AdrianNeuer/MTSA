@@ -17,7 +17,7 @@ class DLinear(MLForecastModel):
         self.optim = optim.Adam(self.model.parameters(), lr=0.01)
         self.loss_fn = nn.MSELoss()
         self.epoch = 5
-        self.bath_size = 64
+        self.batch_size = 64
         self.seq_len = args.seq_len
         self.pred_len = args.pred_len
 
@@ -31,9 +31,9 @@ class DLinear(MLForecastModel):
 
         for i in range(self.epoch):
             total_loss = 0
-            for j in range(0, train_X.shape[0], self.bath_size):
-                data = train_X[i: i + self.bath_size].to(torch.float32)
-                label = train_Y[i: i + self.bath_size].to(torch.float32)
+            for j in range(0, train_X.shape[0], self.batch_size):
+                data = train_X[j: j + self.batch_size].to(torch.float32)
+                label = train_Y[j: j + self.batch_size].to(torch.float32)
 
                 pred = self.model(data)
                 loss = self.loss_fn(label, pred)
