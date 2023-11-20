@@ -11,6 +11,7 @@ from src.utils.decomposition import moving_average, differential_decomposition
 
 device = "cuda:0" if torch.cuda.is_available() else "cpu"
 
+
 def get_distance(args):
     distance_dict = {
         'euclidean': euclidean,
@@ -28,11 +29,13 @@ def get_decomposition(args):
     return distance_dict[args.decomposition]
 
 
-def lagbased(data,tau):
-    return data[:,::tau,:]
+def lagbased(data, tau):
+    return data[:, ::tau, :]
+
 
 def fourier(data):
     return np.abs(np.fft.fft(data, axis=1))
+
 
 class Autoencoder(nn.Module):
     def __init__(self, input_size, encoding_size):
@@ -41,10 +44,10 @@ class Autoencoder(nn.Module):
         self.decoder = nn.Linear(encoding_size, input_size)
 
     def forward(self, x):
-        x = x.permute(0,2,1)
+        x = x.permute(0, 2, 1)
         x = self.encoder(x)
         x = self.decoder(x)
-        x = x.permute(0,2,1)
+        x = x.permute(0, 2, 1)
         return x
 
 
@@ -59,7 +62,8 @@ class TsfKNN(MLForecastModel):
         self.fourier = args.fourier
         self.auto = args.auto
         self.encoding_size = args.encoding_size
-        self.autoencoder = Autoencoder(args.seq_len, encoding_size=self.encoding_size).to(device)
+        self.autoencoder = Autoencoder(
+            args.seq_len, encoding_size=self.encoding_size).to(device)
         super().__init__()
 
     def _fit(self, X: np.ndarray) -> None:
@@ -93,11 +97,13 @@ class TsfKNN(MLForecastModel):
             self.X, (seq_len + pred_len, channels)).reshape(-1, seq_len + pred_len, channels)
         if self.lag != 0:
             X = lagbased(X, self.lag)
-            X_s = np.concatenate((lagbased(X_s[:, :seq_len, :], self.lag), X_s[:, seq_len:, :]), axis=1)
+            X_s = np.concatenate(
+                (lagbased(X_s[:, :seq_len, :], self.lag), X_s[:, seq_len:, :]), axis=1)
             seq_len = seq_len // self.lag
         if self.fourier:
             X = fourier(X)
-            X_s = np.concatenate((fourier(X_s[:, :seq_len, :]), X_s[:, seq_len:, :]), axis=1)
+            X_s = np.concatenate(
+                (fourier(X_s[:, :seq_len, :]), X_s[:, seq_len:, :]), axis=1)
         if self.auto:
             criterion = nn.MSELoss()
             optimizer = optim.Adam(self.autoencoder.parameters(), lr=0.01)
@@ -117,9 +123,11 @@ class TsfKNN(MLForecastModel):
                     optimizer.step()
                     total_loss += loss.item()
                 print("Epoch : {}, Loss : {}".format(epoch+1, total_loss))
-            X = self.autoencoder.encoder(torch.from_numpy(X).to(device).to(torch.float32).permute(0,2,1)).cpu().permute(0,2,1).detach().numpy()
-            X_s_pre = self.autoencoder.encoder(torch.from_numpy(X_s[:, :seq_len, :].copy()).to(device).to(torch.float32).permute(0,2,1)).permute(0,2,1).cpu().detach().numpy()
-            X_s = np.concatenate((X_s_pre, X_s[:, seq_len:, :]),axis=1)
+            X = self.autoencoder.encoder(torch.from_numpy(X).to(device).to(
+                torch.float32).permute(0, 2, 1)).cpu().permute(0, 2, 1).detach().numpy()
+            X_s_pre = self.autoencoder.encoder(torch.from_numpy(X_s[:, :seq_len, :].copy()).to(
+                device).to(torch.float32).permute(0, 2, 1)).permute(0, 2, 1).cpu().detach().numpy()
+            X_s = np.concatenate((X_s_pre, X_s[:, seq_len:, :]), axis=1)
             seq_len = self.encoding_size
 
         for i in range(X.shape[0]):
