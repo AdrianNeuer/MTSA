@@ -4,9 +4,9 @@ import pandas as pd
 
 class DatasetBase:
     def __init__(self, args):
-        self.ratio_train = args.ratio_train
-        self.ratio_val = args.ratio_val
-        self.ratio_test = args.ratio_test
+        # self.ratio_train = args.ratio_train
+        # self.ratio_val = args.ratio_val
+        # self.ratio_test = args.ratio_test
         self.split = False
         self.read_data()
         self.split_data(args.seq_len)
@@ -89,9 +89,10 @@ class ETTDataset(DatasetBase):
             self.num_val = 4 * 30 * 24 * 4
             self.num_test = 4 * 30 * 24 * 4
         self.train_data = self.data[:, :self.num_train, :]
-        self.val_data = self.data[:, self.num_train - seq_len: self.num_train + self.num_val, :]
+        self.val_data = self.data[:, self.num_train -
+                                  seq_len: self.num_train + self.num_val, :]
         self.test_data = self.data[:,
-                         self.num_train + self.num_val - seq_len: self.num_train + self.num_val + self.num_test, :]
+                                   self.num_train + self.num_val - seq_len: self.num_train + self.num_val + self.num_test, :]
 
 
 class CustomDataset(DatasetBase):
@@ -134,8 +135,10 @@ class CustomDataset(DatasetBase):
         self.num_test = int(tot_num * 0.2)
         self.num_val = tot_num - self.num_train - self.num_test
         self.train_data = self.data[:, :self.num_train, :]
-        self.val_data = self.data[:, self.num_train - seq_len: self.num_train + self.num_val, :]
-        self.test_data = self.data[:, self.num_train + self.num_val - seq_len:, :]
+        self.val_data = self.data[:, self.num_train -
+                                  seq_len: self.num_train + self.num_val, :]
+        self.test_data = self.data[:,
+                                   self.num_train + self.num_val - seq_len:, :]
 
 
 def get_dataset(args):

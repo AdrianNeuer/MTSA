@@ -6,3 +6,10 @@ def euclidean(A, B):
 
 # TODO: add more distance
 
+
+def manhattan(A, B):
+    return np.sum(np.sum(np.abs(A - B), axis=1), axis=1)
+
+
+def chebyshev(A, B):
+    return np.max(np.sum(np.abs(A - B), axis=1), axis=1)
